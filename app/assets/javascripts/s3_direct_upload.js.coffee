@@ -22,6 +22,7 @@ $.fn.S3Uploader = (options) ->
     remove_failed_progress_bar: false
     progress_bar_target: null
     click_submit_target: null
+    validate_before_submit: null
     allow_multiple_files: true
 
   $.extend settings, options
@@ -30,7 +31,8 @@ $.fn.S3Uploader = (options) ->
   forms_for_submit = []
   if settings.click_submit_target
     settings.click_submit_target.click ->
-      form.submit() for form in forms_for_submit
+      if !settings.validate_before_submit || settings.validate_before_submit()
+        form.submit() for form in forms_for_submit
       false
 
   $wrapping_form = $uploadForm.closest('form')
