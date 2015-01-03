@@ -32,7 +32,10 @@ $.fn.S3Uploader = (options) ->
   if settings.click_submit_target
     settings.click_submit_target.click ->
       if !settings.validate_before_submit || settings.validate_before_submit()
-        form.submit() for form in forms_for_submit
+        if forms_for_submit.length > 0
+          form.submit() for form in forms_for_submit
+        else
+          $uploadForm.trigger("s3_no_uploads_and_valid")
       false
 
   $wrapping_form = $uploadForm.closest('form')
